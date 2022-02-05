@@ -10,12 +10,15 @@ return;
 }
 
 function keyDownHandler(e) {
+    
     tecla = e.which || e.keyCode;
     console.log(tecla);
+    
     coincidenciaok = false;
     var pasadelargo=false;
     contador=0;
     coincidencia=[];
+    if (terminoeljuego===0) {
     for (let yy of letrasusadas) {
         if (yy===tecla) {pasadelargo=true;
             window.alert("La letra " + String.fromCodePoint(tecla) +" ya fue utilizada!");};
@@ -51,6 +54,9 @@ if (pasadelargo===false){
         letrasusadas = [];
         contadorcoincidencias = 0;
         elegidaalazar = "";
+        
+        
+        
             //window.alert("Felicitaciones, Ud. ganó!");
         };
         };
@@ -61,18 +67,25 @@ if (pasadelargo===false){
         contadorahorcado = contadorahorcado + 1;
         let accionar = datosahorcado[contadorahorcado-1];
         dibuja(altitud+accionar.lo,longitud+accionar.al,accionar.tipo,altitud+accionar.diblo,longitud+accionar.dibal);
-        lapiz.fillText(String.fromCodePoint(tecla),100+((letrasusadas.length-contadorcoincidencias)*31),450);
+        lapiz.fillText(String.fromCodePoint(tecla),100+((contadorahorcado)*31),450);
         lapiz.stroke();
         if (contadorahorcado===10) {terminoeljuego = 2;
             lapiz.fillText("Fin del juego", 500, 350);
-        lapiz.stroke();
-        comenzarahorcado.disabled = false;
+            lapiz.stroke();
+        var img = new Image();
+        img.src = "ahorcado.png";
+        
+        img.onload = function(){
+            lapiz.drawImage(img, 500, 65);
+         }
+         comenzarahorcado.disabled = false;        
         pasapalabras=[];
         espaciorayitas = 0;
         contadorahorcado = 0;
         letrasusadas = [];
         contadorcoincidencias = 0;
         elegidaalazar = "";
+        
             //window.alert("Qué desastre!, Ud Perdió!.");
         };
 
@@ -81,6 +94,7 @@ if (pasadelargo===false){
     
     
 }
+    }
 
     
 
@@ -121,11 +135,11 @@ comenzarahorcado.addEventListener("click",function(){
 //let elegidaalazar= palabras[Math.trunc(Math.random()*palabras.length)];
 //function dibujarahorcado(elegidaalazar2){
 let largopalabra = elegidaalazar.length;
-console.log("el largo " + largopalabra);
 espaciorayitas = (600-(elegidaalazar.length*23))/(largopalabra-1);
 let ubicacionesrayitas=[];
 pasapalabras = [];
 letrasusadas = [];
+terminoeljuego = 0;
 contadorcoincidencias = 0;
 
 lapiz.beginPath();
@@ -152,7 +166,7 @@ document.addEventListener("keydown", keyDownHandler,false);
 
        
 } 
-console.log(pasapalabras);
+
 return;
 });
 //lapiz.moveTo(longitud - 200,altitud);
